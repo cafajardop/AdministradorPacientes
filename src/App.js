@@ -1,17 +1,44 @@
-import React, { Fragment } from 'react';
-import Formulario from './components/Formulario'
+import React, { Fragment, useState } from 'react';
+import Formulario from './components/Formulario';
+import Cita from './components/Cita';
 
 function App() {
+
+  //Arreglo de citas cuando agregamos citas agregamos al state principal
+  const [citas, guardarCitas] = useState([]);
+
+  // Función que tome las citas actuales y agregue la nueva
+  const crearCita = cita => {
+    guardarCitas([...citas, cita])
+  }
+  // Función que elimina cita por su id
+  const eliminarCita = id => {
+    const nuevasCitas = citas.filter(cita => cita.id !== id);
+    guardarCitas(nuevasCitas);
+  }
+
+  // Mensaje condicional
+  const titulo = citas.length === 0 ? 'No hay citas' : 'Administra tus Citas';
+
   return (
     <Fragment>
       <h1>Administrador de pacientes</h1>
       <div className="container">
         <div className="row">
           <div className="one-half column">
-            <Formulario/>
+            <Formulario
+              crearCita={crearCita}
+            />
           </div>
           <div className="one-half column">
-            2
+            <h2>{titulo}</h2>
+            {citas.map(cita => (
+              <Cita
+                key={cita.id}
+                cita={cita}
+                eliminarCita={eliminarCita}
+              />
+            ))}
           </div>
         </div>
       </div>

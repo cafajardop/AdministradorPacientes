@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from 'react';
 import uuid from 'uuid/v4';
 
-const Formulario = () => {
+const Formulario = ({ crearCita }) => {
     // Crear State de Citas
     const [cita, actualizarCita] = useState({
         mascota: '',
@@ -40,11 +40,17 @@ const Formulario = () => {
         // Luego asignar un ID => para crear id unicos existe una libreria que se llama =>  npm i uuid => hay que importarla import uuid from 
         cita.id = uuid(); // => autogeneramos el uuid 
 
-
         // Crear la cita => Este componente se crea en el APP principal 
-
+        crearCita(cita);
 
         // Reiniciar el form
+        actualizarCita({
+            mascota: '',
+            propietario: '',
+            fecha: '',
+            hora: '',
+            sintomas: ''
+        })
     }
 
     return (
@@ -60,7 +66,7 @@ const Formulario = () => {
             <form
                 onSubmit={subitCita}
             >
-                <label>Nombre Mascota</label> 
+                <label>Nombre Mascota</label>
                 <input
                     type="text" //PARA TODOS ESTOS CAMPOS SE UTILIZO UNA LIBRERIA QUE SE LLAMA SKELETON SE IMPORTO EN EL INDEX .HTML
                     name="mascota"
