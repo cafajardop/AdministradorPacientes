@@ -1,7 +1,17 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import uuid from 'uuid/v4';
+import { TipoService } from './Service';
 
 const Formulario = ({ crearCita }) => {
+
+    const [tipoDocumentList, settipoDocumentList] = useState([])
+
+    useEffect(() => {
+        TipoService.getTipo().then(res => {
+            settipoDocumentList(res)
+        })
+    }, [])
+
     // Crear State de Citas
     const [cita, actualizarCita] = useState({
         mascota: '',
@@ -63,9 +73,7 @@ const Formulario = ({ crearCita }) => {
                     :
                     null
             }
-            <form
-                onSubmit={subitCita}
-            >
+            <form onSubmit={subitCita}>
                 <label>Nombre Mascota</label>
                 <input
                     type="text" //PARA TODOS ESTOS CAMPOS SE UTILIZO UNA LIBRERIA QUE SE LLAMA SKELETON SE IMPORTO EN EL INDEX .HTML
@@ -84,6 +92,20 @@ const Formulario = ({ crearCita }) => {
                     onChange={actualizaState}
                     value={propietario}
                 />
+                <label>Tipo documento</label>
+
+                <select
+                    name="tipoDoc"
+                    className="u-full-width"
+                    onChange={actualizaState}
+                    value={propietario}
+                >
+                    {tipoDocumentList.map((item, i) =>
+                        <option key={i} value={item.IdTip}>{item.Descripcion}</option>
+                    )}
+                </select>
+
+
                 <label>Fecha</label>
                 <input
                     type="date"
