@@ -4,7 +4,7 @@ import Formulario from './components/Formulario'
 function App() {
   return (
     <Fragment>
-      <h1>Administrador d e pacientes</h1>
+      <h1>Administrador de pacientes</h1>
       <div className="container">
         <div className="row">
           <div className="one-half column">
