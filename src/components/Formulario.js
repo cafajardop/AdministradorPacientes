@@ -1,4 +1,5 @@
 import React, { Fragment, useState } from 'react';
+import uuid from 'uuid/v4';
 
 const Formulario = () => {
     // Crear State de Citas
@@ -11,8 +12,7 @@ const Formulario = () => {
     })
 
     //Se pueden crear multiples states => este se crear para el error
-    const [error, atualizarError] = useState(false)
-
+    const [error, actualizarError] = useState(false) // inicializamos el actualizarError en false ya que si nos envian los campos vacios 
 
     // Funcion que se ejecuta cada vez que el usuario escribe un input
     const actualizaState = e => {
@@ -23,7 +23,7 @@ const Formulario = () => {
     }
 
     // Extraer los valores
-    const { mascota, propietario, fecha, hora, sintomas } = cita;
+    const { mascota, propietario, fecha, hora, sintomas } = cita; // siempre es bueno extraerlos para no escribir this.mascota etc...
 
     // Cuando el usuario presiona agregar cita
     const subitCita = e => {
@@ -31,14 +31,18 @@ const Formulario = () => {
 
         // Lo primero siempre se debe validar
         if (mascota.trim() === '' || propietario.trim() === '' || fecha.trim() === '' || hora.trim() === '' || sintomas.trim() === '') {
-            atualizarError(true);
+            actualizarError(true);
             return;
         }
+        // Eliminar el mensaje si los campos estan llenos
+        actualizarError(false);
+
+        // Luego asignar un ID => para crear id unicos existe una libreria que se llama =>  npm i uuid => hay que importarla import uuid from 
+        cita.id = uuid(); // => autogeneramos el uuid 
 
 
-        // Luego asignar un ID
+        // Crear la cita => Este componente se crea en el APP principal 
 
-        // Crear la cita 
 
         // Reiniciar el form
     }
@@ -47,7 +51,7 @@ const Formulario = () => {
         <Fragment>
             <h2>Crear cita</h2>
             {
-                error
+                error //operador ternario si el error esta en true nos retorna la alerta de lo contrario retorna false
                     ?
                     <p className="alerta-error">Todos los campos son obligatorios</p>
                     :
@@ -56,9 +60,9 @@ const Formulario = () => {
             <form
                 onSubmit={subitCita}
             >
-                <label>Nombre Mascota</label>
+                <label>Nombre Mascota</label> 
                 <input
-                    type="text"
+                    type="text" //PARA TODOS ESTOS CAMPOS SE UTILIZO UNA LIBRERIA QUE SE LLAMA SKELETON SE IMPORTO EN EL INDEX .HTML
                     name="mascota"
                     className="u-full-width"
                     placeholder="Nombre Mascota"
